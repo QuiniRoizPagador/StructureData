@@ -8,7 +8,7 @@
 package structuredata.binarytree.impl;
 
 import structuredata.binarytree.BinaryNode;
-import structuredata.binarytree.BlackRedNode;
+import structuredata.binarytree.RedBlackNode;
 
 /**
  * Clase que representa la implementación de un nodo para un árbol rojinegro
@@ -18,7 +18,7 @@ import structuredata.binarytree.BlackRedNode;
  *
  * @author Quini Roiz
  */
-public class RedBlackNodeImpl<E extends Comparable> extends BinaryNodeImpl<E> implements BlackRedNode<E> {
+class RedBlackNodeImpl<E extends Comparable> extends BinaryNodeImpl<E> implements RedBlackNode<E> {
 
     private static enum colors {
         RED,
@@ -37,12 +37,12 @@ public class RedBlackNodeImpl<E extends Comparable> extends BinaryNodeImpl<E> im
     }
 
     @Override
-    public BlackRedNode<E> getParent() {
-        return (BlackRedNode<E>) super.getParent();
+    public RedBlackNode<E> getParent() {
+        return (RedBlackNode<E>) super.getParent();
     }
 
     @Override
-    public void setParent(BlackRedNode<E> parent) {
+    public void setParent(RedBlackNode<E> parent) {
         super.setParent(parent);
     }
 
@@ -87,7 +87,7 @@ public class RedBlackNodeImpl<E extends Comparable> extends BinaryNodeImpl<E> im
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj) && color.equals(((BlackRedNode<E>) obj).color());
+        return super.equals(obj) && color.equals(((RedBlackNode<E>) obj).color());
     }
 
 }

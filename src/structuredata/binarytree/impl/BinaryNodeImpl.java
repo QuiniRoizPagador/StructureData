@@ -18,7 +18,7 @@ import structuredata.binarytree.BinaryNode;
  *
  * @author Quini Roiz
  */
-public class BinaryNodeImpl<E extends Comparable> extends NodeImpl<E> implements BinaryNode<E> {
+class BinaryNodeImpl<E extends Comparable> extends NodeImpl<E> implements BinaryNode<E> {
 
     private BinaryNode<E> left;
     private BinaryNode<E> right;

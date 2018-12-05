@@ -9,7 +9,7 @@ package structuredata.binarytree.impl;
 
 import java.util.Iterator;
 import structuredata.binarytree.BinaryNode;
-import structuredata.binarytree.BlackRedNode;
+import structuredata.binarytree.RedBlackNode;
 
 /**
  * Clase que representa la implementación de un árbol rojinegro
@@ -19,33 +19,33 @@ import structuredata.binarytree.BlackRedNode;
  *
  * @author Quini Roiz
  */
-public class RedBlackTreeImpl<E extends Comparable> extends SearchBinaryTreeImpl<E> {
+public class RedBlackTree<E extends Comparable> extends SearchBinaryTree<E> {
 
-    private BlackRedNode<E> first;
+    private RedBlackNode<E> first;
 
-    public RedBlackTreeImpl(E first) {
+    public RedBlackTree(E first) {
         super(first);
     }
 
-    public RedBlackTreeImpl() {
+    public RedBlackTree() {
         super();
     }
 
     @Override
     public void insert(E element) {
         // insertamos igual que los árboles de búsquedas
-        BlackRedNode<E> node = new RedBlackNodeImpl<>(element);
-        BlackRedNode<E> root = (BlackRedNode<E>) insert(getRoot(), node);
+        RedBlackNode<E> node = new RedBlackNodeImpl<>(element);
+        RedBlackNode<E> root = (RedBlackNode<E>) insert(getRoot(), node);
         setRoot(root);
         size++;
         balance(node);
-        first = (BlackRedNode<E>) getFirst();
+        first = (RedBlackNode<E>) getFirst();
     }
 
-    private void balance(BlackRedNode<E> x) {
+    private void balance(RedBlackNode<E> x) {
         // Caso Trivial: Si el padre del nodo insertado es negro, 
         // no se realiza ningún ajuste (el árbol es correcto)
-        BlackRedNode<E> y = x.getParent();
+        RedBlackNode<E> y = x.getParent();
         // cuando el padre no exista se cambia el color del nodo a negro y se termina el bucle
         if (y == null) {
             x.setBlack();
@@ -53,9 +53,9 @@ public class RedBlackTreeImpl<E extends Comparable> extends SearchBinaryTreeImpl
         else if (y.isRed()) // El padre del nodo debe existir y ser rojo 
         {
             // Traemos al abuelo. Debe existir (no puede ser raíz un nodo rojo)
-            BlackRedNode<E> z = (BlackRedNode<E>) y.getParent();
+            RedBlackNode<E> z = (RedBlackNode<E>) y.getParent();
             // También traemos al tío, hermano del nodo padre
-            BlackRedNode<E> t = (BlackRedNode<E>) getBrother(y);
+            RedBlackNode<E> t = (RedBlackNode<E>) getBrother(y);
 
             // caso 1: Tío rojo, nodo x izquierdo o derecho
             if (t != null && t.isRed())// Cambiamos de color a los nodos y, z y t
@@ -90,7 +90,7 @@ public class RedBlackTreeImpl<E extends Comparable> extends SearchBinaryTreeImpl
     }
 
     // rotacion simple izquierda
-    private void rotateSimpleLeft(BlackRedNode<E> x, BlackRedNode<E> y, BlackRedNode<E> z) {
+    private void rotateSimpleLeft(RedBlackNode<E> x, RedBlackNode<E> y, RedBlackNode<E> z) {
         z.setLeft(x);
         y.setRight(x.getLeft());
         x.setLeft(y);
@@ -102,7 +102,7 @@ public class RedBlackTreeImpl<E extends Comparable> extends SearchBinaryTreeImpl
     }
 
     // rotación simple derecha
-    private void rotateSimpleRight(BlackRedNode<E> x, BlackRedNode<E> y, BlackRedNode<E> z) {
+    private void rotateSimpleRight(RedBlackNode<E> x, RedBlackNode<E> y, RedBlackNode<E> z) {
         z.setRight(x);
         if (x != null) {
             y.setLeft(x.getRight());
@@ -117,9 +117,9 @@ public class RedBlackTreeImpl<E extends Comparable> extends SearchBinaryTreeImpl
     }
 
     // rotación derecha izquierda
-    private void rotateDoubleLeft(BlackRedNode<E> y, BlackRedNode<E> z) {
+    private void rotateDoubleLeft(RedBlackNode<E> y, RedBlackNode<E> z) {
 
-        BlackRedNode<E> r = z.getParent();
+        RedBlackNode<E> r = z.getParent();
         z.setRight(y.getLeft());
         y.setLeft(z);
         z.setParent(y);
@@ -140,8 +140,8 @@ public class RedBlackTreeImpl<E extends Comparable> extends SearchBinaryTreeImpl
     }
 
     // rotación derecha doble
-    private void rotateDoubleRight(BlackRedNode<E> y, BlackRedNode<E> z) {
-        BlackRedNode<E> r = z.getParent();
+    private void rotateDoubleRight(RedBlackNode<E> y, RedBlackNode<E> z) {
+        RedBlackNode<E> r = z.getParent();
         z.setLeft(y.getRight());
         y.setRight(z);
         z.setParent(y);
@@ -170,27 +170,27 @@ public class RedBlackTreeImpl<E extends Comparable> extends SearchBinaryTreeImpl
         if (isRoot(element)) {
             // Eliminamos el nodo en cuestión
             super.remove(element);
-            if (getRoot() != null && ((BlackRedNode<E>) getRoot()).isRed()) {
-                ((BlackRedNode<E>) getRoot()).setBlack();
+            if (getRoot() != null && ((RedBlackNode<E>) getRoot()).isRed()) {
+                ((RedBlackNode<E>) getRoot()).setBlack();
             }
         } else {
             // necesitamos conocer los nodos x y z, es decir, hijo y padre del 
             // nodo a eliminar en el caso de que p sea rojo
-            BlackRedNode<E> p = (BlackRedNode<E>) searchElement(element);
-            BlackRedNode<E> x;
+            RedBlackNode<E> p = (RedBlackNode<E>) searchElement(element);
+            RedBlackNode<E> x;
             if (p.hasLeft()) {
                 E maxValue = maxValue(p.getLeft());
                 if (maxValue != null) {
-                    x = (BlackRedNode<E>) searchElement(maxValue);
+                    x = (RedBlackNode<E>) searchElement(maxValue);
                 } else {
                     x = null;
                 }
             } else {
-                x = (BlackRedNode<E>) p.getRight();
+                x = (RedBlackNode<E>) p.getRight();
             }
             // primeramente necesitamos al padre (z), por si fuera nulo x
-            BlackRedNode<E> aux = p.getParent();
-            BlackRedNode<E> z = new RedBlackNodeImpl(aux.getElement(), aux.getLeft(), aux.getRight(), aux.getParent());
+            RedBlackNode<E> aux = p.getParent();
+            RedBlackNode<E> z = new RedBlackNodeImpl(aux.getElement(), aux.getLeft(), aux.getRight(), aux.getParent());
             z.setColor(aux.color());
             super.remove(element);
             // Caso trivial 1: P es rojo: no hacemos nada
@@ -201,17 +201,17 @@ public class RedBlackTreeImpl<E extends Comparable> extends SearchBinaryTreeImpl
                 x.setBlack();
             }
         }
-        first = (BlackRedNode<E>) getFirst();
+        first = (RedBlackNode<E>) getFirst();
     }
 
-    private void balanceRemove(BlackRedNode<E> x, BlackRedNode<E> z) {
+    private void balanceRemove(RedBlackNode<E> x, RedBlackNode<E> z) {
 
         // necesitamos al nodo hermano del que se va a eliminar (y)
-        BlackRedNode<E> y;
+        RedBlackNode<E> y;
         if ((x == null && !z.hasLeft()) || (x != null && x.equals(z.getLeft()))) {
-            y = (BlackRedNode<E>) z.getRight();
+            y = (RedBlackNode<E>) z.getRight();
         } else {
-            y = (BlackRedNode<E>) z.getLeft();
+            y = (RedBlackNode<E>) z.getLeft();
         }
         // Caso trivial 2: Hijo x rojo
         if (x != null && x.isRed()) {
@@ -222,8 +222,8 @@ public class RedBlackTreeImpl<E extends Comparable> extends SearchBinaryTreeImpl
         } else { // Comenzamos casos no triviales
 
             if (y != null) {
-                BlackRedNode<E> a = (BlackRedNode<E>) y.getLeft();
-                BlackRedNode<E> b = (BlackRedNode<E>) y.getRight();
+                RedBlackNode<E> a = (RedBlackNode<E>) y.getLeft();
+                RedBlackNode<E> b = (RedBlackNode<E>) y.getRight();
                 // Caso 1: Y es rojo, Z negro
                 if (y.isRed() && z.isBlack()) {
                     z.setRed();
@@ -296,7 +296,7 @@ public class RedBlackTreeImpl<E extends Comparable> extends SearchBinaryTreeImpl
      */
     public E pull() {
         if (first != null) {
-            BlackRedNode<E> f = first;
+            RedBlackNode<E> f = first;
             remove(first.getElement());
             return f.getElement();
         }
@@ -311,7 +311,7 @@ public class RedBlackTreeImpl<E extends Comparable> extends SearchBinaryTreeImpl
         } else {
             Iterator<BinaryNode<E>> it = nodes();
             while (it.hasNext()) {
-                BlackRedNode node = (BlackRedNode) it.next();
+                RedBlackNode node = (RedBlackNode) it.next();
                 res += "\n----------------------------------\n" + node.getElement() + "(" + node.color() + ")";
             }
         }

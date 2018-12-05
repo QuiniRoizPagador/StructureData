@@ -10,9 +10,9 @@ package structuredata.binarytree.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import structuredata.binarytree.SearchBinaryTree;
 import structuredata.binarytree.BinaryNode;
-import structuredata.binarytree.BlackRedNode;
+import structuredata.binarytree.RedBlackNode;
+import structuredata.binarytree.Tree;
 
 /**
  * Clase que representa la implementación de un árbol binario de búsquedas con
@@ -23,17 +23,17 @@ import structuredata.binarytree.BlackRedNode;
  *
  * @author Quini Roiz
  */
-public class SearchBinaryTreeImpl<E extends Comparable> implements SearchBinaryTree<E> {
+public class SearchBinaryTree<E extends Comparable> implements Tree<E> {
 
     private BinaryNode<E> root;
     protected int size;
 
-    public SearchBinaryTreeImpl(E first) {
+    public SearchBinaryTree(E first) {
         BinaryNode<E> firstNode = new BinaryNodeImpl<>(first);
         root = firstNode;
     }
 
-    public SearchBinaryTreeImpl() {
+    public SearchBinaryTree() {
 
     }
 
@@ -285,7 +285,7 @@ public class SearchBinaryTreeImpl<E extends Comparable> implements SearchBinaryT
         String res = "";
         Iterator it = nodes();
         while (it.hasNext()) {
-            BinaryNode<E> node = (BlackRedNode<E>) it.next();
+            BinaryNode<E> node = (RedBlackNode<E>) it.next();
             res += "\n" + node.getElement() + ":" + node.getLeft() + "|" + node.getRight();
         }
         return res;

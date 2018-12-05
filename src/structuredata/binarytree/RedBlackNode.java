@@ -16,7 +16,7 @@ package structuredata.binarytree;
  *
  * @author Quini Roiz
  */
-public interface BlackRedNode<E extends Comparable> extends BinaryNode<E> {
+public interface RedBlackNode<E extends Comparable> extends BinaryNode<E> {
 
     /**
      * Método para saber si es rojo el nodo
@@ -62,14 +62,14 @@ public interface BlackRedNode<E extends Comparable> extends BinaryNode<E> {
     void setColor(Enum color);
 
     @Override
-    BlackRedNode<E> getParent();
+    RedBlackNode<E> getParent();
 
     /**
      * Actualización de la referencia al padre del nodo
      *
      * @param parent Nuevo padre del nodo
      */
-    void setParent(BlackRedNode<E> parent);
+    void setParent(RedBlackNode<E> parent);
 
     @Override
     boolean equals(Object obj);

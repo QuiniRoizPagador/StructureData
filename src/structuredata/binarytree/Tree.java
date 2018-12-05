@@ -18,7 +18,7 @@ import java.util.Iterator;
  *
  * @author Quini Roiz
  */
-public interface SearchBinaryTree<E extends Comparable> {
+public interface Tree<E extends Comparable> {
 
     /**
      * Método que insertará un elemento en el árbol

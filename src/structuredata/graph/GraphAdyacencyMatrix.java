@@ -21,19 +21,18 @@ import structuredata.node.NodeImpl;
  * @param <E> Utilizaremos los tipos genéricos de datos para trabajar en esta
  * implementación
  */
-public class GraphImpl<E> implements Graph<E> {
+public class GraphAdyacencyMatrix<E> extends AbstractGraph<E> {
 
-    private int[][] graph;
-    private List<Node<E>> nodes;
+    private double[][] graph;
     private int size;
 
-    public GraphImpl() {
+    public GraphAdyacencyMatrix() {
         this(0);
     }
 
-    public GraphImpl(int n) {
-        graph = new int[n][n];
-        nodes = new ArrayList<>();
+    public GraphAdyacencyMatrix(int n) {
+        super();
+        graph = new double[n][n];
     }
 
     @Override
@@ -48,13 +47,11 @@ public class GraphImpl<E> implements Graph<E> {
 
     // método utilidad para ampliar la matriz
     private void ampliarMatriz() {
-        int[][] aux = new int[size + 1][size + 1];
+        double[][] aux = new double[size + 1][size + 1];
         // creamos matriz auxiliar y copiamos el contenido 
         // de la original en ella
         for (int i = 0; i < graph.length; i++) {
-            for (int j = 0; j < graph[i].length; j++) {
-                aux[i][j] = graph[i][j];
-            }
+            System.arraycopy(graph[i], 0, aux[i], 0, graph[i].length);
         }
         // actualizamos la referencia de la original
         graph = aux;
@@ -129,7 +126,7 @@ public class GraphImpl<E> implements Graph<E> {
                 // obtengo el índice del nodo actual A
                 int indexA = nodes.indexOf(a);
                 // obtengo los vecinos de A y los llamo b
-                for (Node<E> b : nodes) {
+                nodes.forEach((b) -> {
                     // por cada nodo b vecino de a:
                     // obtengo su índice
                     int indexB = nodes.indexOf(b);
@@ -146,7 +143,7 @@ public class GraphImpl<E> implements Graph<E> {
                         // añado b a la cola
                         q.add(b);
                     }
-                }
+                });
             }
         }
         // creamos el listado para volcado
@@ -175,6 +172,15 @@ public class GraphImpl<E> implements Graph<E> {
             i++;
         }
         return has;
+    }
+
+    @Override
+    protected double getWeight(E from, E to) {
+        Node<E> vFrom = new NodeImpl(from);
+        Node<E> vTo = new NodeImpl(to);
+        int nFrom = nodes.indexOf(vFrom);
+        int nTo = nodes.indexOf(vTo);
+        return graph[nFrom][nTo];
     }
 
     @Override
